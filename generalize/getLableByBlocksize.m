@@ -1,29 +1,17 @@
 function [label,EC] = getLableByBlocksize(msg,EC,n)
 
-%数学公式，满足
-%1、x+y=19
-%2、x+2y=32
-%  x=6,y=13
-%3 - 19
-%{00000,...,00101}对应{1,...,6}
-%{0011,1111}对应{7,19}，差值是4
-%5 - 61
-%{000000,...,111001}对应{1,...,58}
-%{11101,11111}对应{59,61}，差值是30
-%7 - 127
-%{0000000,...,1111101}对应{1,...,126}
-%{1111111}对应{127}，差值是64
-arys=[5,6,4;%3-先取5个bit如果大于6（从1开始编号），则取4个bits
-    6,58,30;%5-先取6个bit如果大于58（从1开始编号），则取5个bits
-    7,126,64;%7-先取7个bit如果大于126（从1开始编号），则取6个bits
+
+arys=[5,6,4;%t=1 - Read 5 bits, if this digit greater than 6, read its front 4 bits as the secret digit
+    6,58,30;%t=2 - Read 6 bits, if this digit greater than 58, read its front 5 bits as the secret digit
+    7,126,64;%t=3 - Read 7 bits, if this digit greater than 126, read its front 6 bits as the secret digit
     ];
 
 
-if n==19
+if n==19 % For t=1
     ary = arys(1,:);
-elseif n==61
+elseif n==61 % For t=2
     ary = arys(2,:);
-else
+else % For t=3
     ary = arys(3,:);
 end
 

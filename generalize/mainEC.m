@@ -1,47 +1,43 @@
 function mainEC(filePath,stateRandom,dis,comNums)
-%filePath - 需要处理的图片所在文件夹，会自动扫描
-%epoch - 测试的次数
-%stateRandom - 随机数是否要固定1-固定 0-真随机
-%stateFlag - 判断Major Assisiant两个shadow 是否要打乱 1-打乱 0-固定第一个就是major
 
-%日志文件
+% The log file
 fileLog = fopen('log.txt','w');
 
-%需要处理的图片所在文件夹，会自动扫描
+% Open the images
 fileFolder=fullfile(filePath);
 dirOutput=dir(fullfile(fileFolder,'*.*'));
 fileNames={dirOutput.name};
-
-%图片的数目
+% The number of images
 imageNumber = size(fileNames,2);
     
-
+% Construct the random bits
 msg = createMSG(10*512*512,stateRandom);
     
-%遍历所有图片，记得从3开始，前两个是 . 和 .. 要跳过
+% Travel each image
 for loop = 4:imageNumber
     myPrint(fileLog,['image-',num2str(loop-2),':',fileNames{loop}]);
     
     path = strcat(strcat(filePath,'/'),fileNames{loop});
-    I = imread(path);  %原始图像
+    I = imread(path);  % Read the image
     I = double(I);
     [m,n]=size(I);
     
     
-    
-      psnr1 = double(0);
+    % The PSNR for three stegos
+     psnr1 = double(0);
     psnr2 = double(0);
     psnr3 = double(0);
     
         for t=1:length(comNums)
             number = comNums(t);
             
-            aryEC = [5000,10000, 20000];
+            % The maximum of payload
+            aryEC = [5000,10000, 20000]; % bits
             for tEC=1:length(aryEC)
                 endEC = aryEC(tEC);
             
             %embedding
-            [IS1,IS2,IS3,EC] = embeddingEC(I,msg,t,number,dis,endEC);
+            [IS1,IS2,IS3,EC] = embeddingEC(I,msg,t,numberofelements,dis,endEC);
                 myPrint(fileLog,['number:',num2str(number)]);
                 myPrint(fileLog,['EC(bpp):',num2str(endEC/3/m/n)]);
                 myPrint(fileLog,['EC(bits):',num2str(endEC)]);

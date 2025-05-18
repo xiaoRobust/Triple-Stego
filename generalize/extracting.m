@@ -1,4 +1,4 @@
-function [ msg_extract,IS ] = extracting( IS1,IS2,IS3,msg,locations,blocksize,comNum )
+function [ msg_extract,IS ] = extracting( IS1,IS2,IS3,msg,dis,t,number )
 %extraction
 [m,n] = size(IS1);
 msg_extract = msg;
@@ -14,13 +14,13 @@ for i=1:m
         x3 = IS3(i,j);
         
         %border
-        t = (blocksize-1)/2;
         if (x1<=t  || x1>=255-t ) && x1==x2 && x2==x3
             IS(i,j) = IS1(i,j);
             continue;
         end
         
-        [IS(i,j),msg_extract,idx] = extraction(x1,x2,x3,msg_extract,idx,locations,comNum);
+        % Extract from three stego pixels 
+        [IS(i,j),msg_extract,idx] = extraction(x1,x2,x3,msg_extract,idx,dis,number);
 
        
         

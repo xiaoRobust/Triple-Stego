@@ -1,13 +1,14 @@
 clear;  clc; close all;
 
-%需要处理的图片所在文件夹，会自动扫描
+% The image path
 filePath = 'pics';
 
 
-%随机数是否要固定1-固定 0-真随机
+% How to generate the random number  1-fix 0-random
 stateRandom=0;
 
-%block大小
+% Triple block
+% Denotes the modify range for (p, p, p)
 dis=[
 0,0,0;
 0,0,+1;
@@ -137,11 +138,14 @@ dis=[
 +3,-3,+3;
 +3,+3,-3];
 
-%组合个数
+% The numbers of Orientation Combinations
+% t=1, 19
+% t=2, 61
+% t=3, 127
 comNums=[19];
 %comNums=[19,61,127];
 
-%正常方法
+% The main function of our method
 main(filePath,stateRandom,dis,comNums);
-%pdh分析
-mainPDH(filePath,stateRandom,dis,comNums);
+% The PDH analysis of our method
+% mainPDH(filePath,stateRandom,dis,comNums);
